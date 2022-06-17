@@ -60,3 +60,21 @@ class Trie:
             self.output.append((prefix + node.value, node.repeats))
         for child in node.children.values():
             self.dfs(child, prefix + node.value)
+
+    def search_fraza(self,lista):
+        self.output = []
+        nova_lista = []
+        parent = self.root
+        for index in lista:
+            for ch in index:
+                if ch in parent.children:
+                    print("NADJENA 1 REC")
+                    parent = parent.children[ch]
+                    print(index)
+                    nova_lista.append(index)
+                    print("1111")
+                else:
+                   print("udje ovde")
+                   return []
+        print(nova_lista)
+        self.dfs(parent, lista[:-1])
