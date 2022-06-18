@@ -30,6 +30,7 @@ def pocetak():
         lista_svih_file = [f for f in iglob('python-2.7.7-docs-html/**/*', recursive=True) if os.path.isfile(f)]
     else:
         putanja = input("Unesite putanju")
+        #print(putanja)
         lista_svih_file = [f for f in iglob(putanja+"/**/*", recursive=True) if os.path.isfile(f)]
     lista_file_html = []
     parser_projekat = Parser()
@@ -42,21 +43,20 @@ def pocetak():
             pom = v.insert_vertex(fajl)
             veza_linkova[pom] = linkovi
             file_trie = fill_trie(fajl, reci)
+    #print(lista_file_html)
     if len(lista_file_html)==0:
         print("Uneli ste pogresan direktorijum ili u direktorijumu nema html stranica")
         return False
-    print("Broj cvorova u grafu je: ", v.vertex_count())
+
+    #print("Broj cvorova u grafu je: ", v.vertex_count())
     napravi_grane(v)
-    print("Broj grana u grafu je:",v.edge_count())
+    #print("Broj grana u grafu je:",v.edge_count())
 
 def napravi_grane(v):
-    #for cv in veza_linkova.keys():
-    for cv in veza_linkova:
+    for cv in veza_linkova.keys():
         lista_linkova = veza_linkova[cv]
-        #for i in range(len(lista_linkova)):
-        for j in veza_linkova[cv]:
-            #pom_nova = v.insert_vertex(lista_linkova[i])
-            pom_nova = v.insert_vertex(j)
+        for i in range(len(lista_linkova)):
+            pom_nova = v.insert_vertex(lista_linkova[i])
             v.insert_edge(cv,pom_nova)
 
 def fill_trie(fajl, reci):
@@ -101,26 +101,6 @@ def unos():
         else:
             print("VISESLOZNOST")
             visesloznost(tekst_koji_se_trazi)
-            # tekst_podeljen = tekst_koji_se_trazi.split(" ")
-            # print(tekst_podeljen)
-            # heu = {}
-            # novi_str = ""
-            # heuristika_za_vise_reci = {}
-            # for i in range(len(tekst_podeljen)):
-            #     if tekst_podeljen[i]!="":
-            #         print(tekst_podeljen[i])
-            #         novi_str = novi_str+tekst_podeljen[i]+","
-            #         heu = racunanje_vr_jedna_rec(tekst_podeljen[i])
-            #         for key1 in heu:
-            #             if key1 not in heuristika_za_vise_reci:
-            #                 heuristika_za_vise_reci[key1] = heu[key1]
-            #             else:
-            #                 heuristika_za_vise_reci[key1] = heuristika_za_vise_reci[key1] + heu[key1]
-            #         #print(heu)
-            #         #print(len(heu))
-            # #print(heuristika_za_vise_reci)
-            # #print(len(heuristika_za_vise_reci))
-            # ispis_file(heuristika_za_vise_reci,novi_str[:-1])
 
 def racunanje_vr_jedna_rec(tekst_koji_se_trazi):
     heuristika_recnik = {}
@@ -154,64 +134,6 @@ def racunanje_vr_jedna_rec(tekst_koji_se_trazi):
         heuristika_recnik[key] += 0.01*stepen + 0.01*zbir
 
     return heuristika_recnik
-    # lista_vr = []
-    # for key in heuristika_recnik:
-    #     lista_vr.append(heuristika_recnik[key])
-    #
-    # lista_vr_sort = lista_vr
-    # lista_vr_sort = sort(lista_vr_sort)
-    # for i in range(len(lista_vr_sort) // 2):
-    #     lista_vr_sort[i], lista_vr_sort[len(lista_vr_sort) - 1 - i] = lista_vr_sort[len(lista_vr_sort) - 1 - i], \
-    #                                                                   lista_vr_sort[i]
-    #
-    # # print("SORT LISTA")
-    # # print("Sortiran dict")
-    # # for val in sorted(heuristika_recnik.values()):
-    # #     for key in heuristika_recnik:
-    # #         if heuristika_recnik[key] == val:
-    # #             print("U ovom file se nalazi", key,", sa ", val, "pojavljivanja reci",tekst_koji_se_trazi)
-    # #             # broj_stanica = input("Unesite broj stranica koje zelite da vam se prikaze")
-    # #             # broj_stanica = int(broj_stanica)
-    #
-    # iskorisceni_file = []
-    # broj_strana = input("Unesite koliko stranica zeli da vam se prikaze")
-    # broj_strana = int(broj_strana)
-    # br = 0
-    # # for val in sort(lista_vr):
-    # for val in lista_vr_sort[0:broj_strana]:
-    #     for key in heuristika_recnik:
-    #         if heuristika_recnik[key] == val and key not in iskorisceni_file and br < broj_strana:
-    #             iskorisceni_file.append(key)
-    #             br += 1
-    #             print("U ovom file se nalazi", key, ", sa ", val, "RANGOM ", tekst_koji_se_trazi)
-    #
-    # global najvazniji_link_kljuc
-    # najvazniji_link_vrednost = lista_vr_sort[0]
-    # for key in heuristika_recnik:
-    #     if heuristika_recnik[key] == najvazniji_link_vrednost:
-    #         najvazniji_link_kljuc = key
-    # # print(najvazniji_link_kljuc)
-    # parser_projekat = Parser()
-    # reci_za_ispis = parser_projekat.parse(najvazniji_link_kljuc)[1]
-    # print("TEKST IZ FILE", najvazniji_link_kljuc)
-    # print("------------------------------------------------------------------")
-    # index = 0
-    # brojac = 0
-    # granica = 10
-    # for rec in reci_za_ispis:
-    #     index += 1
-    #     if rec.lower() == tekst_koji_se_trazi.lower() and brojac == 0:
-    #         if (len(reci_za_ispis) - index) < 10:
-    #             granica = len(reci_za_ispis) - index
-    #         while brojac < granica:
-    #             print(reci_za_ispis[index + brojac - 1], end=" ")
-    #             brojac += 1
-    #         break
-    # da_li_zelite_novi_dir = input("\nDa li zelite pretrazite novi direktorijum").lower().strip()
-    # if da_li_zelite_novi_dir == "ne":
-    #     unos()
-    # else:
-    #     pocetak()
 
 def ispis_file(heuristika_recnik,tekst_koji_se_trazi):
     lista_vr = []
@@ -222,18 +144,15 @@ def ispis_file(heuristika_recnik,tekst_koji_se_trazi):
     lista_vr_sort = sort(lista_vr_sort)
     for i in range(len(lista_vr_sort) // 2):
         lista_vr_sort[i], lista_vr_sort[len(lista_vr_sort) - 1 - i] = lista_vr_sort[len(lista_vr_sort) - 1 - i], lista_vr_sort[i]
-    # print("SORT LISTA")
-    # print("Sortiran dict")
-    # for val in sorted(heuristika_recnik.values()):
-    #     for key in heuristika_recnik:
-    #         if heuristika_recnik[key] == val:
-    #             print("U ovom file se nalazi", key,", sa ", val, "pojavljivanja reci",tekst_koji_se_trazi)
-    #             # broj_stanica = input("Unesite broj stranica koje zelite da vam se prikaze")
-    #             # broj_stanica = int(broj_stanica)
 
     iskorisceni_file = []
     broj_strana = input("Unesite koliko stranica zeli da vam se prikaze")
-    broj_strana = int(broj_strana)
+    while True:
+        if not broj_strana.isnumeric():
+            broj_strana = input("Unesite koliko stranica zeli da vam se prikaze")
+        else:
+            broj_strana = int(broj_strana)
+            break
     br = 0
     for val in lista_vr_sort[0:broj_strana]:
         for key in heuristika_recnik:
@@ -251,24 +170,86 @@ def ispis_file(heuristika_recnik,tekst_koji_se_trazi):
     reci_za_ispis = parser_projekat.parse(najvazniji_link_kljuc)[1]
     print("\n\nTEKST IZ FILE", najvazniji_link_kljuc)
     print("------------------------------------------------------------------")
-    index = 0
-    brojac = 0
+
+    izadji = False
     granica = 10
-    for rec in reci_za_ispis:
-        index += 1
-        #if rec.lower() == tekst_koji_se_trazi.lower() and brojac == 0:
-        if rec.lower() in tekst_koji_se_trazi.lower() and brojac == 0:
-            if (len(reci_za_ispis) - index) < 10:
-                granica = len(reci_za_ispis) - index
-            while brojac < granica:
-                print(reci_za_ispis[index + brojac - 1], end=" ")
-                brojac += 1
-            break
+    print("\n")
+    if "i ne" in tekst_koji_se_trazi.lower():
+        tekst_koji_se_trazi=tekst_koji_se_trazi.strip().lower()
+        reci_trazene = tekst_koji_se_trazi.split("i ne")
+        prvi_sep = reci_trazene[0]
+        prvi_sep = prvi_sep.strip()
+        drugi_sep = reci_trazene[-1]
+        drugi_sep = drugi_sep.strip()
+        print(prvi_sep,drugi_sep)
+        for i in range(len(reci_za_ispis)):
+            rec = reci_za_ispis[i].lower()
+            if rec == prvi_sep or rec == drugi_sep:
+                print(rec,end=": ")
+                if len(reci_za_ispis)-i<10:
+                    granica = len(reci_za_ispis)-i-1
+                for j in range(granica):
+                    print(reci_za_ispis[i + j], end=" ")
+                break
+    else:
+        if " i " in tekst_koji_se_trazi.lower():
+            tekst_koji_se_trazi = tekst_koji_se_trazi.strip().lower()
+            reci_trazene = tekst_koji_se_trazi.split(" i ")
+            prvi_sep = reci_trazene[0]
+            prvi_sep = prvi_sep.strip()
+            drugi_sep = reci_trazene[-1]
+            drugi_sep = drugi_sep.strip()
+            for i in range(len(reci_za_ispis)):
+                rec = reci_za_ispis[i].lower()
+                if rec == prvi_sep or rec == drugi_sep:
+                    print(rec, end=": ")
+                    if len(reci_za_ispis) - i < 10:
+                        granica = len(reci_za_ispis) - i - 1
+                    for j in range(granica):
+                        print(reci_za_ispis[i + j], end=" ")
+                    break
+        else:
+            if " ili " in tekst_koji_se_trazi.lower():
+                tekst_koji_se_trazi = tekst_koji_se_trazi.strip().lower()
+                reci_trazene = tekst_koji_se_trazi.split(" ili ")
+                prvi_sep = reci_trazene[0]
+                prvi_sep = prvi_sep.strip()
+                drugi_sep = reci_trazene[-1]
+                drugi_sep = drugi_sep.strip()
+                for i in range(len(reci_za_ispis)):
+                    rec = reci_za_ispis[i].lower()
+                    if rec == prvi_sep or rec == drugi_sep:
+                        print(rec, end=": ")
+                        if len(reci_za_ispis) - i < 10:
+                            granica = len(reci_za_ispis) - i - 1
+                        for j in range(granica):
+                            print(reci_za_ispis[i + j], end=" ")
+                        break
+            else:
+                tekst_koji_se_trazi = tekst_koji_se_trazi.strip().lower()
+                reci_trazene = tekst_koji_se_trazi.split(",")
+                for i in range(len(reci_trazene)):
+                    if reci_trazene[i]!="":
+                        for j in range(len(reci_za_ispis)):
+                            rec = reci_za_ispis[j].lower()
+                            if rec == reci_trazene[i]:
+                                print(rec, end=": ")
+                                if len(reci_za_ispis) - j < 10:
+                                    granica = len(reci_za_ispis) - j - 1
+                                for k in range(granica):
+                                    print(reci_za_ispis[j + k], end=" ")
+                                print("\n")
+                                izadji = True
+                                break
+                        if izadji==True:
+                            break
+
+
     da_li_zelite_novi_dir = input("\nDa li zelite pretrazite novi direktorijum").lower().strip()
     if da_li_zelite_novi_dir == "ne":
         unos()
     else:
-        pocetak()
+        main()
 
 def visesloznost(tekst_koji_se_trazi):
     tekst_podeljen = tekst_koji_se_trazi.split(" ")
@@ -285,6 +266,9 @@ def visesloznost(tekst_koji_se_trazi):
                     heuristika_za_vise_reci[key1] = heu[key1]
                 else:
                     heuristika_za_vise_reci[key1] = heuristika_za_vise_reci[key1] + heu[key1]
+    if len(heuristika_za_vise_reci) == 0:
+        print("Nema takvog fajla")
+        unos()
     ispis_file(heuristika_za_vise_reci, novi_str[:-1])
 
 def funkcija_or(tekst_koji_se_trazi):
@@ -303,6 +287,9 @@ def funkcija_or(tekst_koji_se_trazi):
                     heuristika_za_vise_reci[key1] = heu[key1]
                 else:
                     heuristika_za_vise_reci[key1] = heuristika_za_vise_reci[key1] + heu[key1]
+    if len(heuristika_za_vise_reci) == 0:
+        print("Nema takvog fajla")
+        unos()
     ispis_file(heuristika_za_vise_reci, novi_str[:-1])
 
 def funkcija_or_ponovo(tekst_koji_se_trazi):
@@ -346,6 +333,9 @@ def funkcija_and(tekst_koji_se_trazi):
     for key in heuristika_1_rec:
         if key in heuristika_2_rec:
             heuristika_and[key] = heuristika_1_rec[key] + heuristika_2_rec[key]
+    if len(heuristika_and) == 0:
+        print("Nema takvog fajla")
+        unos()
     ispis_file(heuristika_and,novi_str)
 
 def funkcija_not(tekst_koji_se_trazi):
@@ -363,8 +353,10 @@ def funkcija_not(tekst_koji_se_trazi):
     for key in heuristika_1_rec:
         if key not in heuristika_2_rec:
             heuristika_not[key] = heuristika_1_rec[key]
+    if len(heuristika_not) == 0:
+        print("Nema takvog fajla")
+        unos()
     ispis_file(heuristika_not, novi_str)
-
 
 def main():
     start = time.time()

@@ -1,7 +1,3 @@
-"""https://albertauyeung.github.io/2020/06/15/python-trie.html/"""
-"""https://towardsdatascience.com/implementing-a-trie-data-structure-in-python-in-less-than-100-lines-of-code-a877ea23c1a1"""
-"""https://www.askpython.com/python/examples/trie-data-structure"""
-
 class TrieNode:
     def __init__(self, value):
         self.value = value
@@ -12,29 +8,25 @@ class TrieNode:
         self.dictionary = {}
         self.repeats = 0
 
-
 class Trie:
     def __init__(self):
         self.root = TrieNode(None)
-
-    def insert(self, word, file_path, surroundings):
-        parent = self.root
-        for i, char in enumerate(word):
-            if char not in parent.children:
-                parent.children[char] = TrieNode(char)
-            parent = parent.children[char]
-            if i == len(word) - 1:
-                parent.end_here = True
-                parent.file_path = file_path
-                parent.surroundings.append(surroundings)
-                parent.repeats += 1
-
-            if file_path in parent.dictionary:
-                parent.dictionary[file_path].append(surroundings)
-            else:
-                parent.dictionary[file_path]=[surroundings]
-
-
+    # def insert(self, word, file_path, surroundings):
+    #     parent = self.root
+    #     for i, char in enumerate(word):
+    #         if char not in parent.children:
+    #             parent.children[char] = TrieNode(char)
+    #         parent = parent.children[char]
+    #         if i == len(word) - 1:
+    #             parent.end_here = True
+    #             parent.file_path = file_path
+    #             parent.surroundings.append(surroundings)
+    #             parent.repeats += 1
+    #
+    #         if file_path in parent.dictionary:
+    #             parent.dictionary[file_path].append(surroundings)
+    #         else:
+    #             parent.dictionary[file_path]=[surroundings]
     def broj_ponavljanja(self, word):
         parent = self.root
         for char in word:
@@ -61,20 +53,20 @@ class Trie:
         for child in node.children.values():
             self.dfs(child, prefix + node.value)
 
-    def search_fraza(self,lista):
-        self.output = []
-        nova_lista = []
-        parent = self.root
-        for index in lista:
-            for ch in index:
-                if ch in parent.children:
-                    print("NADJENA 1 REC")
-                    parent = parent.children[ch]
-                    print(index)
-                    nova_lista.append(index)
-                    print("1111")
-                else:
-                   print("udje ovde")
-                   return []
-        print(nova_lista)
-        self.dfs(parent, lista[:-1])
+    def insert(self, word, file, value):
+        node = self.root
+        for char in word:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
+
+        node.is_end = True
+
+        node.repeats += 1
+        if file in node.dictionary:
+            node.dictionary[file].append(value)
+        else:
+            node.dictionary[file] = [value]

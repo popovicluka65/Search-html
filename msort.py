@@ -1,4 +1,3 @@
-
 def merge(L, R):
     n = len(L)
     m = len(R)
@@ -20,7 +19,6 @@ def merge(L, R):
 
     return sorted
 
-
 def sort(A):
     n = len(A)
     if n == 1:
@@ -30,15 +28,3 @@ def sort(A):
     L = sort(A[:mid])
     R = sort(A[mid:])
     return merge(L, R)
-
-
-if __name__ == '__main__':
-    a = []
-    for i in range(19):
-        if i % 2 == 0:
-            a.append(i)
-        else:
-            a.append(i**2)
-    print(a)
-    a = sort(a)
-    print(a)
