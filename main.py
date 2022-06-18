@@ -4,10 +4,8 @@
 
 import time
 from msort import *
-from projekat2_SV4_2021 import parser_projekat
 import os
 from parser_projekat import Parser
-import pickle
 from glob import iglob
 from graph import *
 from Trie import *
